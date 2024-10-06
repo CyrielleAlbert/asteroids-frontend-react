@@ -17,13 +17,12 @@ export const AsteroidDetailsPage = () => {
   const [asteroidInformation, setAsteroidInformation] = useState<AsteroidDetails>();
   const [error, setError] = useState<any>(false);
   const [loading, setLoading] = useState<any>(true);
-  const { getAsteroidById } = useGetAsteroidById();
+  const { getAsteroidById } = useGetAsteroidById(true); // set to false if connected to the backend
 
   const { favoriteAsteroids, addAsteroidToFavorite } = useFavoriteAsteroids();
   useEffect(() => {
     getAsteroidById({ asteroidId })
       .then((data) => {
-        console.log(data);
         if ('message' in data || 'code' in data) {
           setError(true);
           setLoading(false);

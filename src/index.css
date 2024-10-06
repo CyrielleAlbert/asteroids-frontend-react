@@ -3,11 +3,9 @@
 @tailwind utilities;
 
 .ant-btn-primary {
-
   background-color: #7a00da;
   border-radius: 99999px;
 }
-
 
 table,
 th {

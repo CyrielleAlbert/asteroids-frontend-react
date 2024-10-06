@@ -14,8 +14,6 @@ What has been implemented so far:
 
 There are several important missing features:
 
-- Version for small screens and Medium screens
-- Types from the data fetched
 - Limitation on which start date /end date the user picks so that it is always a week
 - FE error handling of errors in the query to the backend
 - Accessibility

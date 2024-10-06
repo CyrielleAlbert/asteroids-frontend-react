@@ -14,7 +14,8 @@
       },
       "strict": true,
       "moduleResolution": "node",
-      "baseUrl": "."
+      "baseUrl": ".",
+      "resolveJsonModule": true
     },
     "include": ["src/**/*"]
   }
