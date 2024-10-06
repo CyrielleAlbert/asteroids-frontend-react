@@ -2,14 +2,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import * as Router from 'src/router';
 import { Lozenge } from './Lozenge';
+import { AsteroidInformationForTable } from 'src/types/AsteroidInformationForTable';
 
 type Props = {
-  asteroids: any[];
+  asteroids: AsteroidInformationForTable[];
 };
 
 export const AsteroidsTable = ({ asteroids }: Props) => {
   return (
-    <table className="w-full">
+    <table className="w-full" tabIndex={0} aria-label="Asteroids that have been close to earth and their miss distance">
       <thead className="sticky top-0 bg-white">
         <tr>
           <th className="text-left w-4/5 p-3">Asteroid</th>
@@ -31,7 +32,7 @@ export const AsteroidsTable = ({ asteroids }: Props) => {
               </div>
             </td>
             <td className="text-right p-3">
-              <div>{`${asteroid.miss_distance} km`}</div>
+              <p>{`${asteroid.miss_distance} km`}</p>
             </td>
           </tr>
         ))}

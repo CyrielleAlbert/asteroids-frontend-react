@@ -7,17 +7,21 @@ import { DatePickerBar } from '../components/DatePickerBar';
 import queryString from 'query-string';
 import _ from 'lodash';
 import { useGetAsteroidsListForPeriod } from 'src/queries/useGetAsteroidsListForPeriod';
+import { AsteroidInformationForTable } from 'src/types/AsteroidInformationForTable';
 
 export const Home = () => {
   const [dataFetched, setDataFetched] = React.useState(false);
-  const [startDate, setStartDate] = React.useState<string>();
-  const [endDate, setEndDate] = React.useState<string>();
-  const [asteroids, setAsteroids] = React.useState<any[]>();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
+
+  const [startDate, setStartDate] = React.useState<string>();
+  const [endDate, setEndDate] = React.useState<string>();
+  const [asteroids, setAsteroids] = React.useState<AsteroidInformationForTable[] | undefined>();
+
   const location = useLocation();
-  const searchValues = queryString.parse(location.search);
   const navigate = useNavigate();
+
+  const searchValues = queryString.parse(location.search);
 
   const { getAsteroidsListForPeriod } = useGetAsteroidsListForPeriod();
 
@@ -30,40 +34,18 @@ export const Home = () => {
   };
 
   const handleSearch = () => {
+    console.log('startDate', startDate);
     navigate(`/asteroids?startDate=${startDate}&endDate=${endDate}`);
     setLoading(true);
-    const asteroidsListForPeriod = getAsteroidsListForPeriod({ startDate, endDate });
-    asteroidsListForPeriod
-      .then((data) => {
-        const isDataError = 'message' in data || 'code' in data;
-        if (!isDataError) {
-          const near_earth_objects = Object.entries(data.near_earth_objects).flatMap(
-            ([date, items]: [date: any, items: any]) => {
-              return items.map((item: any) => ({
-                name: item.name,
-                id: item.id,
-                hazardous: item.is_potentially_hazardous_asteroid,
-                miss_distance: item.close_approach_data[0].miss_distance.kilometers,
-                date,
-              }));
-            },
-          );
-          const sortedAsteroidsList = _.sortBy(near_earth_objects, 'miss_distance');
-
-          setAsteroids(sortedAsteroidsList);
-          setDataFetched(true);
-          setLoading(false);
-        } else {
-          console.log('Error fetching the data', error);
-          setLoading(false);
-          setError(true);
-        }
-      })
-      .catch((error) => {
-        console.log('Error fetching the data', error);
-        setLoading(false);
+    getAsteroidsListForPeriod({ startDate, endDate }).then((result) => {
+      if ('code' in result || 'message' in result) {
         setError(true);
-      });
+        setDataFetched(false);
+      } else {
+        setAsteroids(result);
+        setDataFetched(true);
+      }
+    });
   };
 
   useEffect(() => {
@@ -71,7 +53,6 @@ export const Home = () => {
       if (searchValues.startDate && searchValues.endDate) {
         setStartDate(searchValues.startDate as string);
         setEndDate(searchValues.endDate as string);
-        handleSearch();
       }
     }
   }, []);
@@ -114,7 +95,6 @@ export const Home = () => {
                 disabled={loading}
               />
               {loading && <p>Loading...</p>}
-              {!!error && <p>There was an error fetching the data</p>}
             </div>
           </>
         )}

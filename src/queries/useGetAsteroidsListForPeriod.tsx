@@ -1,6 +1,8 @@
 import { Error } from 'src/types/Error';
 import { ASTEROID_BACKEND_HOST } from './constants';
-import { AsteroidsList } from 'src/types/AsteroidsList';
+import { AsteroidInformation, AsteroidsList } from 'src/types/AsteroidsList';
+import _ from 'lodash';
+import { AsteroidInformationForTable } from 'src/types/AsteroidInformationForTable';
 
 export const useGetAsteroidsListForPeriod = () => {
   const getAsteroidsListForPeriod = ({ startDate, endDate }: { startDate?: string; endDate?: string }) => {
@@ -9,7 +11,24 @@ export const useGetAsteroidsListForPeriod = () => {
     }
     return fetch(`${ASTEROID_BACKEND_HOST}/fetchAllAsteroidsForPeriod?startDate=${startDate}&endDate=${endDate}`)
       .then((response) => response.json())
-      .then((data) => data as AsteroidsList)
+      .then((data: AsteroidsList) => {
+        const near_earth_objects = Object.entries(data.near_earth_objects).flatMap(
+          ([date, items]: [date: string, items: Array<AsteroidInformation>]) => {
+            return items.map(
+              (item: AsteroidInformation) =>
+                ({
+                  name: item.name,
+                  id: item.id,
+                  hazardous: item.is_potentially_hazardous_asteroid,
+                  miss_distance: item.close_approach_data[0].miss_distance.kilometers,
+                  date,
+                }) as AsteroidInformationForTable,
+            );
+          },
+        );
+        const sortedAsteroidsList = _.sortBy(near_earth_objects, 'miss_distance');
+        return sortedAsteroidsList;
+      })
       .catch((error) => {
         return { message: `Error fetching the data: ${error.message}`, code: 500 } as Error;
       });
