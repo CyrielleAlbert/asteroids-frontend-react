@@ -23,7 +23,7 @@ export const Home = () => {
 
   const searchValues = queryString.parse(location.search);
 
-  const { getAsteroidsListForPeriod } = useGetAsteroidsListForPeriod(true); // set to false if connected to the backend
+  const { getAsteroidsListForPeriod } = useGetAsteroidsListForPeriod();
 
   const handleStartDateInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(event.target.value);

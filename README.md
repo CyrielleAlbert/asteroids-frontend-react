@@ -5,6 +5,7 @@
 ASTEROIDS Application
 
 An application used to track asteroids based on the NASA API, built with React and TailwindCSS.
+This application is using in addition a backend for frontend. The repository can be found [here](https://github.com/CyrielleAlbert/asteroid-backend-kotlin)
 
 ## Project Status
 
@@ -37,7 +38,11 @@ To build the application:
 
 `npm run build`
 
-To Start Server:
+If you are not running the Kotlin server locally, the app will be using mock data, you can run this script to start the frontend:
+
+`npm run start:mock`
+
+If you run the Kotlin server locally, you can rung this command to use the API:
 
 `npm start`
 

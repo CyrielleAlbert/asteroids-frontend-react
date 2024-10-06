@@ -5,9 +5,9 @@ import _ from 'lodash';
 import { AsteroidInformationForTable } from 'src/types/AsteroidInformationForTable';
 import asteroidsListMockData from '../assets/mock/asteroidsList.json';
 
-export const useGetAsteroidsListForPeriod = (mock: boolean) => {
+export const useGetAsteroidsListForPeriod = () => {
   const getAsteroidsListForPeriod = ({ startDate, endDate }: { startDate?: string; endDate?: string }) => {
-    if (mock) {
+    if (process.env.NODE_ENV === 'development') {
       //Used to test the Frontend without connecting to the backend
       return Promise.resolve({ ...asteroidsListMockData } as AsteroidsList).then((data: AsteroidsList) => {
         const near_earth_objects = Object.entries(data.near_earth_objects).flatMap(

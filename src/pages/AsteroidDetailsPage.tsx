@@ -17,7 +17,7 @@ export const AsteroidDetailsPage = () => {
   const [asteroidInformation, setAsteroidInformation] = useState<AsteroidDetails>();
   const [error, setError] = useState<any>(false);
   const [loading, setLoading] = useState<any>(true);
-  const { getAsteroidById } = useGetAsteroidById(true); // set to false if connected to the backend
+  const { getAsteroidById } = useGetAsteroidById();
 
   const { favoriteAsteroids, addAsteroidToFavorite } = useFavoriteAsteroids();
   useEffect(() => {

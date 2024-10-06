@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "start": "webpack serve --mode development",
+    "start:mock": "webpack serve --mode development",
+    "start": "webpack serve --mode production",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "npx prettier --write .",
     "build": "npm run format && webpack --mode production",

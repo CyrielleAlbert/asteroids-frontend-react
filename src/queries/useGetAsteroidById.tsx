@@ -3,12 +3,12 @@ import { Error } from 'src/types/Error';
 import { ASTEROID_BACKEND_HOST } from './constants';
 import asteroidDetails from '../assets/mock/asteroidDetails.json';
 
-export const useGetAsteroidById = (mock: boolean) => {
+export const useGetAsteroidById = () => {
   const getAsteroidById = ({ asteroidId }: { asteroidId?: string }) => {
     if (!asteroidId) {
       return Promise.resolve({ message: 'Asteroid ID is missing', code: 400 });
     }
-    if (mock) {
+    if (process.env.NODE_ENV === 'development') {
       //used to test the Frontend without connecting to the backend
       //@ts-ignore
       return Promise.resolve(asteroidDetails[asteroidId] as AsteroidDetails);
