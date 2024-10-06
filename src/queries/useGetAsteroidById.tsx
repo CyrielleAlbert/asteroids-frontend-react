@@ -10,7 +10,6 @@ export const useGetAsteroidById = () => {
     return fetch(`${ASTEROID_BACKEND_HOST}/fetchAsteroidInformationById?asteroidId=${asteroidId}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         return data as AsteroidDetails;
       })
       .catch((error) => {

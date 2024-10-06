@@ -6,9 +6,10 @@ import { HistoricalApproaches } from '../components/HistoricalApproaches';
 import { OrbitalInformationBox } from '../components/OrbitalInformationBox';
 import { TopNavBar } from '../components/TopNavBar';
 import { Button } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons';
 import { useGetAsteroidById } from 'src/queries/useGetAsteroidById';
 import { AsteroidDetails } from 'src/types/AsteroidDetails';
+import { useFavoriteAsteroids } from 'src/utils/useFavorites';
 
 export const AsteroidDetailsPage = () => {
   const asteroidId = useParams<{ id: string }>().id;
@@ -18,6 +19,7 @@ export const AsteroidDetailsPage = () => {
   const [loading, setLoading] = useState<any>(true);
   const { getAsteroidById } = useGetAsteroidById();
 
+  const { favoriteAsteroids, addAsteroidToFavorite } = useFavoriteAsteroids();
   useEffect(() => {
     getAsteroidById({ asteroidId })
       .then((data) => {
@@ -35,6 +37,12 @@ export const AsteroidDetailsPage = () => {
         setError(true);
       });
   }, []);
+
+  if (!asteroidId) {
+    return <div>Asteroid ID is missing</div>;
+  }
+  const isAsteroidInFavorite = favoriteAsteroids.includes(asteroidId);
+
   return (
     <div className="bg-darkBlue h-screen w-screen">
       <TopNavBar />
@@ -49,18 +57,31 @@ export const AsteroidDetailsPage = () => {
                 <Button type="primary" className="ml-4" icon={<ArrowLeftOutlined />} onClick={() => navigate(-1)}>
                   Go back
                 </Button>
+                <Button
+                  type="dashed"
+                  className="ml-4"
+                  icon={<HeartOutlined />}
+                  onClick={() => {
+                    if (!isAsteroidInFavorite) {
+                      addAsteroidToFavorite(asteroidId);
+                    }
+                  }}
+                  disabled={isAsteroidInFavorite}
+                >
+                  {isAsteroidInFavorite ? 'Added to favorite' : 'Add to favorite'}
+                </Button>
               </div>
-              <div className="grid grid-cols-3 grid-rows-2 gap-4 m-4 h-[calc(100%-104px)]">
-                <div className="col-span-1 row-span-1">
+              <div className="md:grid md:grid-cols-3 md:grid-rows-2 gap-4 m-4 h-[calc(100%-104px)] sm:flex sm:flex-col sm:text-nowrap overflow-auto">
+                <div className="md:col-span-1 md:row-span-1">
                   <GeneralInformationBox asteroidInformation={asteroidInformation} />
                 </div>
-                <div className="col-span-1 row-span-1">
+                <div className="md:col-span-1 md:row-span-1">
                   <OrbitalInformationBox asteroidInformation={asteroidInformation} />
                 </div>
-                <div className="col-span-1 row-span-2">
+                <div className="md:col-span-1 md:row-span-2">
                   <HistoricalApproaches asteroidInformation={asteroidInformation} />
                 </div>
-                <div className="col-span-2 row-span-1">
+                <div className="md:col-span-2 md:row-span-1">
                   <FutureApproaches asteroidInformation={asteroidInformation} />
                 </div>
               </div>

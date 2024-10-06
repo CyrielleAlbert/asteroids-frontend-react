@@ -20,5 +20,5 @@ export const Lozenge = (props: Props) => {
     }
   };
 
-  return <p className={getLozengeColor() + ' rounded-full py-1 px-2'}>{props.content}</p>;
+  return <p className={getLozengeColor() + ' rounded-full py-1 px-2 w-fit'}>{props.content}</p>;
 };

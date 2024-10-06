@@ -5,9 +5,11 @@ export const build = {
 export const path = {
   home: '/asteroids',
   asteroid: '/asteroid/:id',
+  favorites: '/favorites',
 };
 
 export const route = {
   home: '/asteroids',
   asteroid: '/asteroid/:id',
+  favorites: '/favorites',
 };

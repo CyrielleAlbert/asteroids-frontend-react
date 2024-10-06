@@ -34,7 +34,6 @@ export const Home = () => {
   };
 
   const handleSearch = () => {
-    console.log('startDate', startDate);
     navigate(`/asteroids?startDate=${startDate}&endDate=${endDate}`);
     setLoading(true);
     getAsteroidsListForPeriod({ startDate, endDate }).then((result) => {
@@ -45,6 +44,7 @@ export const Home = () => {
         setAsteroids(result);
         setDataFetched(true);
       }
+      setLoading(false);
     });
   };
 
@@ -95,6 +95,7 @@ export const Home = () => {
                 disabled={loading}
               />
               {loading && <p>Loading...</p>}
+              {error && <p>An error occurred while fetching the data</p>}
             </div>
           </>
         )}

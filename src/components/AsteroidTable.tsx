@@ -12,27 +12,31 @@ export const AsteroidsTable = ({ asteroids }: Props) => {
   return (
     <table className="w-full" tabIndex={0} aria-label="Asteroids that have been close to earth and their miss distance">
       <thead className="sticky top-0 bg-white">
-        <tr>
-          <th className="text-left w-4/5 p-3">Asteroid</th>
-          <th className="text-right w-1/5 p-3">Miss Distance</th>
+        <tr tabIndex={0}>
+          <th className="text-left w-4/5 p-3" scope="col">
+            Asteroid
+          </th>
+          <th className="text-right w-1/5 p-3" scope="col">
+            Miss Distance
+          </th>
         </tr>
       </thead>
       <tbody>
         {asteroids?.map((asteroid) => (
           <tr key={asteroid.id} className="min-h-100">
-            <td className="text-left flex min-h-100">
+            <td className="text-left md:flex items-center p-2">
               <NavLink to={Router.build.asteroid(asteroid.id)} className="text-blue-500">
-                {asteroid.name}
+                {`Asteroid ${asteroid.name}`}
               </NavLink>
-              <div className="ml-4">
+              <div className="md:ml-4">
                 <Lozenge
                   type={asteroid.hazardous ? 'error' : 'success'}
                   content={asteroid.hazardous ? 'Hazardous' : 'Non hazardous'}
                 />
               </div>
             </td>
-            <td className="text-right p-3">
-              <p>{`${asteroid.miss_distance} km`}</p>
+            <td className="text-right p-2">
+              <p>{`${Number(asteroid.miss_distance).toFixed(0)} km`}</p>
             </td>
           </tr>
         ))}

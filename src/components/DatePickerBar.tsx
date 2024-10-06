@@ -13,7 +13,7 @@ type DatePickerProps = {
 
 export const DatePickerBar = (props: DatePickerProps) => {
   return (
-    <div className="flex justify-between gap-4">
+    <div className="md:flex justify-between gap-4">
       <Input
         size="large"
         id="startDateInput"

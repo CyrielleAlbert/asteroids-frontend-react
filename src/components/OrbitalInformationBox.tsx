@@ -1,10 +1,11 @@
 import React from 'react';
 import { Attribute } from './Attribute';
+import { AsteroidDetails } from 'src/types/AsteroidDetails';
 
-export const OrbitalInformationBox = ({ asteroidInformation }: { asteroidInformation: any }) => {
+export const OrbitalInformationBox = ({ asteroidInformation }: { asteroidInformation: AsteroidDetails }) => {
   return (
     <div className="border border-solid rounded-lg p-4 h-full">
-      <div className="w-full text-center text-xl">Orbital information</div>
+      <h3 className="w-full text-center text-xl font-medium">Orbital information</h3>
       <div className="flex flex-col gap-4 mt-4">
         <Attribute name="Orbit ID" value={`#${asteroidInformation?.orbital_data.orbit_id}`} />
         <Attribute
